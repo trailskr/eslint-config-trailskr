@@ -1,0 +1,63 @@
+{
+  "name": "@trailskr/eslint-config-trailskr",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "bun@1.2.5",
+  "author": "Ivan Agafonov",
+  "keywords": [
+    "eslint-config"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup --clean --dts",
+    "stub": "bunx --bun tsup",
+    "dev": "bunx --bun @eslint/config-inspector --config eslint.config.ts",
+    "build:inspector": "bun --bun run build && bunx --bun @eslint/config-inspector build",
+    "watch": "bunx --bun tsup --watch",
+    "lint": "bunx --bun eslint .",
+    "lint:fix": "bunx --bun eslint --fix .",
+    "prepack": "bun --bun run build",
+    "release": "bunx --bun bumpp && bun publish",
+    "typecheck": "bunx --bun tsc --noEmit",
+    "prepare": "bunx --bun simple-git-hooks",
+    "up": "bunx --bun taze major -l -I -w"
+  },
+  "dependencies": {
+    "@antfu/eslint-config": "4.10.1",
+    "@unocss/eslint-config": "66.0.0",
+    "eslint": "9.22.0",
+    "eslint-plugin-command": "3.1.0",
+    "eslint-plugin-format": "1.0.1",
+    "eslint-plugin-playwright": "2.2.0",
+    "eslint-plugin-prefer-arrow-functions": "3.6.2",
+    "eslint-plugin-sonarjs": "3.0.2",
+    "local-pkg": "1.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "19.8.0",
+    "@commitlint/config-conventional": "19.8.0",
+    "bumpp": "10.1.0",
+    "jsdom": "26.0.0",
+    "lint-staged": "15.5.0",
+    "npm-run-all2": "7.0.2",
+    "simple-git-hooks": "2.11.1",
+    "taze": "19.0.2",
+    "tsup": "8.4.0",
+    "typescript": "5.8.2",
+    "vue": "3.5.13"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bunx --bun lint-staged",
+    "commit-msg": "bunx --bun commitlint --edit \"$1\""
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
