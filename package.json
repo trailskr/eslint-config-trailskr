@@ -31,7 +31,7 @@
     "lint": "bunx --bun eslint .",
     "lint:fix": "bunx --bun eslint --fix .",
     "prepack": "bun --bun run build",
-    "release": "bunx --bun bumpp && bun publish",
+    "release": "bunx --bun bumpp && bun publish --access public",
     "typecheck": "bunx --bun tsc --noEmit",
     "prepare": "bunx --bun simple-git-hooks",
     "up": "bunx --bun taze major -l -I -w"
