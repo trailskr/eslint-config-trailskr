@@ -3,7 +3,14 @@
   "type": "module",
   "version": "0.0.1",
   "packageManager": "bun@1.2.5",
-  "author": "Ivan Agafonov",
+  "author": "trailskr",
+  "license": "MIT",
+  "homepage": "https://github.com/trailskr/eslint-config-trailskr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trailskr/eslint-config-trailskr.git"
+  },
+  "bugs": "https://github.com/trailskr/eslint-config-trailskr/issues",
   "keywords": [
     "eslint-config"
   ],
