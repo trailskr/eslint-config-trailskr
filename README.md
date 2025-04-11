@@ -7,11 +7,12 @@ Based on [@antfu/eslint-config](https://github.com/antfu/eslint-config)
 ## Differences
 
 - eslint and plugins installations are not required. The following plugins included:
-  * eslint-plugin-command
-  * eslint-plugin-format
-  * eslint-plugin-playwright
-  * eslint-plugin-prefer-arrow-functions
-  * eslint-plugin-sonarjs
+
+  - eslint-plugin-command
+  - eslint-plugin-format
+  - eslint-plugin-playwright
+  - eslint-plugin-prefer-arrow-functions
+  - eslint-plugin-sonarjs
 
 - Added plugin [eslint-plugin-sonarjs](https://github.com/SonarSource/SonarJS/blob/master/packages/jsts/src/rules/README.md).
 
@@ -20,10 +21,10 @@ Based on [@antfu/eslint-config](https://github.com/antfu/eslint-config)
 - Some stylistic differences
 
 - More strict rules:
-  * no-explicit-any
-  * no-shadow
-  * prefer-arrow-functions
-  * import/no-default-export
+  - no-explicit-any
+  - no-shadow
+  - prefer-arrow-functions
+  - import/no-default-export
 
 ## Usage
 
@@ -60,7 +61,6 @@ For example:
 }
 ```
 
-
 ## IDE Support (auto fix on save)
 
 <details>
@@ -71,7 +71,6 @@ For example:
 Install [VS Code ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 Add the following settings to your `.vscode/settings.json`:
-
 
 ```jsonc
 {
@@ -154,7 +153,6 @@ Add the following settings to your `.vscode/settings.json`:
 ```
 
 </details>
-
 
 <details>
 <summary>🟩 Neovim Support</summary>
@@ -244,23 +242,19 @@ lspconfig.eslint.setup({
 // eslint.config.ts
 import { trailskr } from '@trailskr/eslint-config-trailskr'
 
-export default trailskr(
-  {
-    // ...antfu configuration settings, formatting (formatters) is included by default
+export default trailskr({
+  // ...antfu configuration settings, formatting (formatters) is included by default
 
-    // plugin sonarjs, by default: true*/
-    sonarjs: true,
-    // Processing of exceptions, by default: false*/
-    exceptions: false,
-  },
-  {
-    files: ['**/*.ts'],
-    rules: {},
-  },
-  {
-    rules: {},
-  },
-)
+  // plugin sonarjs 'full' - enables all rules, by default: true */
+  sonarjs: true,
+  // Processing of exceptions, by default: false */
+  exceptions: false,
+}, {
+  files: ['**/*.ts'],
+  rules: {},
+}, {
+  rules: {},
+})
 ```
 
 Since v1.0, we migrated to [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new). It provides much better organization and composition.
@@ -296,7 +290,6 @@ export default trailskr({
 })
 ```
 
-
 ### Optional Rules
 
 This config also provides some optional plugins/rules for extended usage.
@@ -328,7 +321,7 @@ const foo = async (msg: string): void => {
 Will be transformed to this when you hit save with your editor or run `eslint --fix`:
 
 ```ts
-async function foo(msg: string): void {
+const foo = async (msg: string): void => {
   console.log(msg)
 }
 ```
@@ -343,7 +336,7 @@ You can optionally enable the [type aware rules](https://typescript-eslint.io/li
 // eslint.config.ts
 import { trailskr } from '@trailskr/eslint-config-trailskr'
 
-export default trailskr(
+export default trailskr({
   typescript: {
     tsconfigPath: 'tsconfig.json',
   },

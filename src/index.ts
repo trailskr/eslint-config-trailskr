@@ -1,4 +1,6 @@
-import { antfu } from '@antfu/eslint-config'
+import { antfu, combine } from '@antfu/eslint-config'
+import maskNet from '@masknet/eslint-plugin'
+import preferArrowReturnStyle from 'eslint-plugin-arrow-return-style'
 import playwright from 'eslint-plugin-playwright'
 import * as preferArrowFunctions from 'eslint-plugin-prefer-arrow-functions'
 import sonarjs from 'eslint-plugin-sonarjs'
@@ -7,22 +9,34 @@ import { isPackageExists } from 'local-pkg'
 const vuePackages = ['vue', 'nuxt', 'vitepress', '@slidev/cli']
 
 type Options = Parameters<typeof antfu>[0] & {
-  /** Sonarjs plugin, by default: true */
-  sonarjs?: boolean
+  // plugin sonarjs 'full' - enables all rules, by default: true */
+  sonarjs?: boolean | 'full'
   /** Processing of exceptions, by default: false */
   exceptions?: boolean
 }
 
 type UserConfig = Parameters<typeof antfu>[1]
 
-const optionalConfig = (enabled: unknown, config: UserConfig): UserConfig => enabled ? config : {}
+const optionalConfig = <T extends object>(enabled: unknown, config: T): T => {
+  return enabled ? config : {} as T
+}
 
 export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) => {
   const {
-    vue: enableVue = options?.vue || vuePackages.some((pack) => isPackageExists((pack))),
+    vue: enableVue = options?.vue || vuePackages.some((pack) => isPackageExists(pack)),
     sonarjs: enableSonar = true,
     exceptions: enableExceptions = false,
   } = options
+
+  const sonarOverride = {
+    rules: {
+      'sonarjs/no-nested-conditional': 'off',
+    },
+  } as const
+
+  const sonarConfig = enableSonar === 'full'
+    ? sonarjs.configs.recommended
+    : combine(sonarjs.configs.recommended, sonarOverride)
 
   return antfu({
     formatters: true,
@@ -33,13 +47,24 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
       'antfu/curly': 'off', // used 'curly'
       'antfu/if-newline': 'off', // used 'curly'
       'antfu/top-level-function': 'off', // used 'prefer-arrow-functions'
-      'arrow-body-style': ['error', 'as-needed'],
+      'camelcase': 'error',
       'curly': ['error', 'multi-line', 'consistent'],
+      'no-cond-assign': ['error', 'except-parens'],
+      'no-restricted-globals': ['error', {
+        name: 'Date',
+        message: 'Use dayjs instead',
+      }, {
+        name: 'global',
+        message: 'Use `globalThis` instead.',
+      }, {
+        name: 'self',
+        message: 'Use `globalThis` instead.',
+      }],
       'prefer-arrow-callback': 'off',
       'style/arrow-parens': ['warn', 'always'],
       'style/brace-style': ['error', '1tbs'],
+      'style/no-extra-parens': ['error', 'all', { conditionalAssign: false }],
       'ts/ban-ts-comment': 'error',
-      'ts/consistent-type-definitions': ['error', 'type'],
       'ts/no-explicit-any': 'error',
       'ts/no-shadow': 'error',
     },
@@ -55,6 +80,22 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
       ],
     },
   }), {
+    // https://github.com/u3u/eslint-plugin-arrow-return-style
+    plugins: {
+      'arrow-return-style': preferArrowReturnStyle,
+    },
+    rules: preferArrowReturnStyle.configs.recommended.rules,
+  }, {
+    // https://dimensiondev.github.io/eslint-plugin/
+    plugins: {
+      '@masknet': maskNet,
+    },
+    // @keep-sorted
+    rules: {
+      // https://dimensiondev.github.io/eslint-plugin/src/rules/prefer-early-return
+      '@masknet/prefer-early-return': ['error', { maximumStatements: 0 }],
+    },
+  }, {
     // https://github.com/JamieMason/eslint-plugin-prefer-arrow-functions
     plugins: {
       'prefer-arrow-functions': preferArrowFunctions,
@@ -86,9 +127,10 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
     // @keep-sorted
     rules: {
       'import/no-default-export': 'error',
+      'ts/consistent-type-definitions': ['error', 'type'],
     },
   }, {
     files: ['e2e/**'],
     ...playwright.configs['flat/recommended'],
-  }, optionalConfig(enableSonar, sonarjs.configs.recommended), ...userConfigs)
+  }, optionalConfig(enableSonar, sonarConfig), ...userConfigs)
 }

@@ -12,6 +12,7 @@
     "lspconfig",
     "nvim",
     "pcss",
+    "masknet",
     "pinia",
     "sonarjs",
     "sonarlint",
