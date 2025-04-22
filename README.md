@@ -14,6 +14,21 @@ Based on [@antfu/eslint-config](https://github.com/antfu/eslint-config)
   - eslint-plugin-prefer-arrow-functions
   - eslint-plugin-sonarjs
 
+If you are using `pnpm` you will need to add this configuration to the `pnpm-workspace.yaml` to host eslint package to node_modules directory
+
+```yaml
+# pnpm-workspace.yaml
+publicHoistPattern:
+  - eslint
+```
+
+Or this
+
+```yaml
+# pnpm-workspace.yaml
+shamefullyHoist: true
+```
+
 - Added plugin [eslint-plugin-sonarjs](https://github.com/SonarSource/SonarJS/blob/master/packages/jsts/src/rules/README.md).
 
 - By default, exception handling and throwing of try/catch/throw exceptions is prohibited. This is done so that error handling is handled explicitly and typed via TypeScript. You can disable this rule by providing `exceptions: true` option to config
