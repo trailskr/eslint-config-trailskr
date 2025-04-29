@@ -63,7 +63,7 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
       'prefer-arrow-callback': 'off',
       'style/arrow-parens': ['warn', 'always'],
       'style/brace-style': ['error', '1tbs'],
-      'style/no-extra-parens': ['error', 'all', { conditionalAssign: false }],
+      'style/no-extra-parens': ['error', 'all', { conditionalAssign: false, nestedBinaryExpressions: false }],
       'ts/ban-ts-comment': 'error',
       'ts/no-explicit-any': 'error',
       'ts/no-shadow': 'error',
