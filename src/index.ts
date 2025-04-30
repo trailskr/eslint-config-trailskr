@@ -64,6 +64,10 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
       'style/arrow-parens': ['warn', 'always'],
       'style/brace-style': ['error', '1tbs'],
       'style/no-extra-parens': ['error', 'all', { conditionalAssign: false, nestedBinaryExpressions: false }],
+      'style/quotes': ['error', 'single', {
+        allowTemplateLiterals: 'avoidEscape',
+        avoidEscape: true,
+      }],
       'ts/ban-ts-comment': 'error',
       'ts/no-explicit-any': 'error',
       'ts/no-shadow': 'error',
