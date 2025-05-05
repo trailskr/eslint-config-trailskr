@@ -69,6 +69,8 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
         avoidEscape: true,
       }],
       'ts/ban-ts-comment': 'error',
+      // enabled below with ignores
+      'ts/consistent-type-definitions': 'off',
       'ts/no-explicit-any': 'error',
       'ts/no-shadow': 'error',
     },
