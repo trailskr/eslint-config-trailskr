@@ -1,7 +1,7 @@
 {
   "name": "@trailskr/eslint-config-trailskr",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "packageManager": "bun@1.2.10",
   "author": "trailskr",
   "license": "MIT",
