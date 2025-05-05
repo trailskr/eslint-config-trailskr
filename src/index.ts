@@ -79,10 +79,20 @@ export const trailskr = (options: Options = {}, ...userConfigs: UserConfig[]) =>
     rules: {
       'no-restricted-syntax': [
         'error',
-        'TSEnumDeclaration[const=true]', // Already added in the config Antfu
-        'TSExportAssignment', // Already added in the config Antfu
-        'TryStatement',
-        'ThrowStatement',
+        // Already in the Antfu config, but there disabled completely
+        {
+          selector: 'TSEnumDeclaration',
+          message: "Don't use an enum, just use a set of values like type Enumeration = 'some' | 'another' or const objects",
+        },
+        'TSExportAssignment', // Already in the Antfu config
+        {
+          selector: 'TryStatement',
+          message: 'Process errors clearly through return (see neverthrow library)',
+        },
+        {
+          selector: 'ThrowStatement',
+          message: 'Process errors clearly through return (see neverthrow library)',
+        },
       ],
     },
   }), {
